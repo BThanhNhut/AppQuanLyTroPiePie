@@ -15,7 +15,7 @@
 - CSDL: postgresql
 - Firebase: firestore, storage database, storage, messaging, authentication
 ## Giao diện của ứng dụng
-<table align="center" style="border: 2px solid #4CAF50;>
+<table align="center">
    <tr>
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/6a2b71f3-19df-4c81-8bfc-17a4f6e63205" alt="Giao diện ứng dụng" width="250" />
