@@ -1,79 +1,137 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
-# Getting Started
-
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
-
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
-
-```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+# Ứng dụng Quản lý Trọ
+## Giới thiệu
+Ứng dụng Quản lý Nhà trọ là một app phát triển để giúp người dùng tìm kiếm phòng trọ một cách dễ dàng, quản lý các thông tin liên quan đến việc quản lý một nhà trọ hoặc căn hộ cho thuê. Ứng dụng này cung cấp một giao diện đơn giản và dễ sử dụng cho việc quản lý danh sách các phòng trọ, thông tin hợp đồng khách thuê, hóa đơn.
+## Tính năng
+- Đăng nhập (Đăng nhập truyền thống, đăng nhập bằng facebook, đăng nhập bằng google)
+- Chat giữa các người dùng với nhau.
+- Quản lý danh sách phòng trọ, quản lý bài đăng.
+- Quản lý yêu thích.
+- Quản lý hợp đồng.
+- Tạo và quản lý hóa đơn: Tạo hóa đơn cho từng khách thuê, ghi nhận các khoản thu.
+## Kiến thức
+- Ngôn ngữ typescript
+- Framework FE: React native
+- Framework Backend: NestJS
+- CSDL: postgresql
+- Firebase: firestore, storage database, storage, messaging, authentication
+## Giao diện của ứng dụng
+<table align="center">
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/6a2b71f3-19df-4c81-8bfc-17a4f6e63205" alt="Giao diện ứng dụng" width="250" />
+         <div style="width: 150px; text-align: justify;">Màn hình splash</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình splash màn hình load đầu tiên trước khi vào ứng dụng, dùng để điều hướng nếu chưa có tài khoản nào đăng nhập thì nó điều hướng vào màn hình login, nếu đã có tài khoản đăng nhập từ trước thì nó sẽ được điều hướng sang màn hình chính của ứng dụng
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/b7b65231-743c-4708-a76a-0a3887a8c542" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/1c0ba52b-f1e5-4d5d-b2fe-4d740006df8b" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/7ef94ed6-dce5-424e-9dbc-055a52d8ef76" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình đăng nhập, và màn hình đăng ký, chúng ta có thể đăng nhập bằng google hoặc facebook
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/bd602644-7ce9-42bc-ba20-4723ae5d546c" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/c384eda1-389e-46fc-8882-f7b020f8dffd" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/c7d90dff-1491-4bf5-9c99-e0b1b92af9f7" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình thông báo khi lỗi và khi đăng ký tài khoản thành công</div>
+      </td>
+      <td align="center" width="250">
+         Đây là một vài ràng buộc sẽ xuất hiện khi vi phạm ràng buộc, ví dụ như tài khoản chứa kí tự đặc biệt, để trống, không đúng định dạng .... 
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/cc428e75-485f-41f7-b274-1a61fcbd470d" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/6a375e37-2f42-4545-91a6-15bde7ebf722" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/76380670-a3f8-4f1f-bd56-72a543288407" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình, chứa các thông tin về các nhà trọ đang cho thuê, bài viết gần đây là 4 bài viết được đăng gần đây, Các bài viết nổi bậc là 10 bài viết được random ngẫu nhiên 
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/99e5a083-6418-4933-83a6-e4590371568d" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình hiển thị các bài đăng, hỗ trợ tìm kiếm và lọc
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/841919e7-9602-4324-a8ff-4e463a9f2d1a" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/81a0b6fd-f83c-4457-aee4-c43e66bc5c3b" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình chứa các notifications, notifications gửi từ remote sẽ được lừu vào bộ nhớ local của app
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/10bef490-f678-4a2a-9649-8645382d77a8" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/e35dc199-39ea-438a-bccb-fce411b04591" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/47f8ce88-6aa6-48ed-a578-910199a367df" alt="Giao diện ứng dụng" width="200" />
+         <img src=https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/2efde44c-0838-4eb7-a0e3-845bcdfed901" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình chi tiết của phòng chứa các thông tin, giá phòng, dịch vụ, nội thất, người đăng...
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/af8443fd-27c3-453f-9666-9ecd6cafc31d" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/967b70ae-7e8e-42b6-bc7e-cee2f655a4fb" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình chat chứa danh sách các tài khoản mà tài khoản mình đang chat, các thông tin sẽ được lưu trên firestorage.
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/62a4f2e5-27a0-4b45-b976-60c511848542" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/41681889-b795-4942-bf97-acb1f04dbe9c" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình hiển thị thông tin tài khoản và các chức năng
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/74b28cbd-97a1-4858-b21d-7e01dfbc4cd5" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/0558b6e8-e9b0-4fd2-a0ee-06dc48506dac" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/e03d42db-a815-4f9f-bc0f-0e6c112f66db" alt="Giao diện ứng dụng" width="200" />
+         <div style="width: 150px; text-align: justify;">Thông báo thêm, xóa yêu thích, và màn hình hiển thị các bài post yêu thích</div>
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình hiển thị các yêu thích của tài khoản.
+      </td>
+   </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/bdd9d857-0f42-4b2a-8bde-f3b194dae172" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/0badc9b7-a2c4-48e5-94be-cb5e751765a5" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/1dab8455-c40e-4d29-ac1a-0be598d1924c" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/17a1b8fd-8683-4289-8ec8-1a19d87e7898" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/9517abaa-4c21-49bf-8263-fa21c563c792" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/2cb15ed2-7d0c-4c89-8917-ff4752598aa5" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/f15e23be-0e6a-484b-adfe-bf4990ada4ef" alt="Giao diện ứng dụng" width="200" />
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình tạo phòng, tạo bài đăng, và quản lý phòng
+      </td>
+   </tr>
+</table>
