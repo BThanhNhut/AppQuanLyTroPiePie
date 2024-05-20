@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "126549853967",
+    "project_id": "quanlyphongtropie",
+    "storage_bucket": "quanlyphongtropie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126549853967:android:987e2297a0878c1787607a",
+        "android_client_info": {
+          "package_name": "com.quanlyphongtropie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126549853967-2nchulurdbo6a3sfhibdi3s2eosehhq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.quanlyphongtropie",
+            "certificate_hash": "80be0e6dc189dd24b9b954113c399cbb79973e33"
+          }
+        },
+        {
+          "client_id": "126549853967-29k9f062t8k32gthikd4ndeairpt5mhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYAS02jyBRVyS95PzSJfz0M7X8b_TxOTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126549853967-29k9f062t8k32gthikd4ndeairpt5mhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
