@@ -61,10 +61,11 @@
    <tr>
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/99e5a083-6418-4933-83a6-e4590371568d" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/3df019fc-3f4e-4a18-8e16-b55b5baaac5c" alt="Giao diện ứng dụng" width="200" />
          <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
       </td>
       <td align="center" width="250">
-         Đây là màn hình hiển thị các bài đăng, hỗ trợ tìm kiếm và lọc
+         Đây là màn hình hiển thị các bài đăng, hỗ trợ tìm kiếm và lọc, sử dung kỹ thuật debounce 2 giây để tìm kiếm địa chỉ chi tiết
       </td>
    </tr>
    <tr>
