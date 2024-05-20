@@ -30,7 +30,7 @@
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/b7b65231-743c-4708-a76a-0a3887a8c542" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/1c0ba52b-f1e5-4d5d-b2fe-4d740006df8b" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/7ef94ed6-dce5-424e-9dbc-055a52d8ef76" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập, đăng ký</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình đăng nhập, và màn hình đăng ký, chúng ta có thể đăng nhập bằng google hoặc facebook
@@ -52,7 +52,7 @@
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/cc428e75-485f-41f7-b274-1a61fcbd470d" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/6a375e37-2f42-4545-91a6-15bde7ebf722" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/76380670-a3f8-4f1f-bd56-72a543288407" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình chính</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình, chứa các thông tin về các nhà trọ đang cho thuê, bài viết gần đây là 4 bài viết được đăng gần đây, Các bài viết nổi bậc là 10 bài viết được random ngẫu nhiên 
@@ -62,7 +62,7 @@
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/99e5a083-6418-4933-83a6-e4590371568d" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/3df019fc-3f4e-4a18-8e16-b55b5baaac5c" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình hiển thị bài đăng</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình hiển thị các bài đăng, hỗ trợ tìm kiếm và lọc, sử dung kỹ thuật debounce 2 giây để tìm kiếm địa chỉ chi tiết
@@ -84,7 +84,7 @@
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/e35dc199-39ea-438a-bccb-fce411b04591" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/47f8ce88-6aa6-48ed-a578-910199a367df" alt="Giao diện ứng dụng" width="200" />
          <img src=https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/2efde44c-0838-4eb7-a0e3-845bcdfed901" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình hiển thị chi tiết</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình chi tiết của phòng chứa các thông tin, giá phòng, dịch vụ, nội thất, người đăng...
@@ -94,7 +94,7 @@
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/af8443fd-27c3-453f-9666-9ecd6cafc31d" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/967b70ae-7e8e-42b6-bc7e-cee2f655a4fb" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình chat và các phòng chat của user đang đăng nhập</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình chat chứa danh sách các tài khoản mà tài khoản mình đang chat, các thông tin sẽ được lưu trên firestorage.
@@ -104,7 +104,7 @@
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/62a4f2e5-27a0-4b45-b976-60c511848542" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/41681889-b795-4942-bf97-acb1f04dbe9c" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình cài đặt, và các chức năng</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình hiển thị thông tin tài khoản và các chức năng
