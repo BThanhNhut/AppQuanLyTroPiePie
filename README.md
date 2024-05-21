@@ -15,7 +15,7 @@
 - CSDL: postgresql
 - Firebase: firestore, storage database, storage, messaging, authentication
 ##
-source BE https://github.com/BThanhNhut/ql_phong-tro
+Source BE https://github.com/BThanhNhut/ql_phong-tro
 ## Giao diện của ứng dụng
 <table align="center">
    <tr>
