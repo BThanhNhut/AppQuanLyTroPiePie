@@ -143,7 +143,7 @@ Source BE https://github.com/BThanhNhut/ql_phong-tro
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/69ad08a7-318a-43d2-8595-81e02e65d362" alt="Giao diện ứng dụng" width="200" />
       </td>
       <td align="center" width="250">
-         Đây là màn hình tạo hợp đồng, tạo bài đăng, và quản lý phòng
+         Đây là màn hình tạo hợp đồng
       </td>
    </tr>
 </table>
