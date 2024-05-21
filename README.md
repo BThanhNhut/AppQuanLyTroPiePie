@@ -74,7 +74,7 @@ Source BE https://github.com/BThanhNhut/ql_phong-tro
       <td style="text-align: center;">
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPie/assets/92388024/841919e7-9602-4324-a8ff-4e463a9f2d1a" alt="Giao diện ứng dụng" width="200" />
          <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/89611363-7493-4feb-9d21-7e06677089b5" alt="Giao diện ứng dụng" width="200" />
-         <div style="width: 150px; text-align: justify;">Màn hình đăng nhập</div>
+         <div style="width: 150px; text-align: justify;">Màn hình thông báo notifacation</div>
       </td>
       <td align="center" width="250">
          Đây là màn hình chứa các notifications, notifications gửi từ remote sẽ được lừu vào bộ nhớ local của app
