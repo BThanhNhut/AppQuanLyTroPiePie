@@ -1,4 +1,5 @@
 import storage from '@react-native-firebase/storage';
+import {ImageSelect} from '../../assets/types/PropTypes';
 
 export const uploadImagesToFirebase = async (
   images: {uri: string; width: number; height: number}[],

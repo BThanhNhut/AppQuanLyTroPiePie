@@ -33,6 +33,7 @@ import HeaderNotifacationScreen from './HeaderNavigator/HeaderNotifacationScreen
 import MyChatRoomsScreen from '../screens/MyChatRoomsScreen';
 import ChatScreen from '../screens/ChatScreen';
 import HeaderChatScreen from './HeaderNavigator/HeaderChatScreen';
+import HeaderCreateContract from './HeaderNavigator/HeaderCreateContract';
 
 const Stack = createNativeStackNavigator();
 export default function MainNavigation() {
@@ -84,7 +85,7 @@ export default function MainNavigation() {
           options={{
             headerShown: true,
             header: ({navigation}) => (
-              <HeaderAccountDetail navigation={navigation} />
+              <HeaderCreateContract navigation={navigation} />
             ),
           }}
         />

@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,17 +10,32 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon1 from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/Fontisto';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+
+import ImagePicker from 'react-native-image-crop-picker';
 import DropdownComponent from '../components/DropdownComponent ';
 import {HomeContext} from '../contexts/HomeContext';
 import axios from 'axios';
 import {AuthContext} from '../contexts/AuthContext';
-import {Room, roomsid_name} from '../assets/types/PropTypes';
+import {
+  Createcontracts,
+  ImageSelect,
+  ImageSelect2,
+  roomsid_name,
+} from '../assets/types/PropTypes';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DropdownComponent2 from '../components/DropdownComponent2';
+import {Image} from 'react-native';
+import {uploadImagesToFirebase} from './Services/CreateRoomService';
+import {showDialogSuccess} from './Services/DetailService';
 const {width, height} = Dimensions.get('window');
 
 export default function CreateContract(): React.JSX.Element {
   const homeContext = useContext(HomeContext);
-  const authCoontext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const [rooms, setrooms] = useState<roomsid_name[]>([]);
 
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -31,17 +45,41 @@ export default function CreateContract(): React.JSX.Element {
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [showstartpay_money, setShowstartpay_money] = useState(false);
 
-  const [room, setRoom] = useState<roomsid_name[]>([]);
+  //
+  const [tenant_name, settenant_name] = useState<string>('');
+  const [phone, setphone] = useState<string>('');
+  const [email, setemail] = useState<string>('');
+  const [idcode, setidcode] = useState<string>('');
+  const [card_front, setcard_front] = useState<ImageSelect>();
+  const [back_of_card, setback_of_card] = useState<ImageSelect>();
+  const [room_price, setroom_price] = useState<number>(0);
+  const [deposit_price, setdeposit_price] = useState<number>(0);
+
+  const [payment_period, setpayment_period] = useState<number>(0);
+  const [note, setnote] = useState<string>('');
+  const [idRoom, setidRoom] = useState<number>(0);
+
+  const [contracts, setContracts] = useState<Createcontracts[]>([]);
+
+  const error = console.error;
+  console.error = (...args) => {
+    if (/defaultProps/.test(args[0])) return;
+    error(...args);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const responses = await Promise.all([
           axios.get(
-            `https://qlphong-tro-production.up.railway.app/rooms/account/${authCoontext?.account?.id}`,
+            `https://qlphong-tro-production.up.railway.app/contracts/accounts/${authContext?.account?.id}`,
+          ),
+          axios.get(
+            `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}`,
           ),
         ]);
-        setRoom(responses[0].data);
+        setContracts(responses[0].data);
+        setrooms(responses[1].data);
       } catch (error) {
         console.log('Fetch api error', error);
       }
@@ -70,8 +108,107 @@ export default function CreateContract(): React.JSX.Element {
     setStartpay_money(currentDate);
   };
 
+  const handleCreateContract = async () => {
+    let lst: {
+      url: string;
+      imageName: string;
+    }[] = []; // Khởi tạo lst với một mảng rỗng
+    const urlimage: ImageSelect[] = [
+      {
+        uri: card_front?.uri || '',
+        width: card_front?.width || 0,
+        height: card_front?.height || 0,
+      },
+      {
+        uri: back_of_card?.uri || '',
+        width: back_of_card?.width || 0,
+        height: back_of_card?.height || 0,
+      },
+    ];
+    lst = (await uploadImagesToFirebase(urlimage)) ?? [];
+    const newContract: Createcontracts = {
+      tenant_name: tenant_name,
+      phone,
+      email,
+      idcode,
+      card_front: lst[0].url || '',
+      back_of_card: lst[1].url || '',
+      start_date: startDate,
+      end_date: endDate,
+      startpay_money: startpay_money,
+      payment_period,
+      room_price,
+      deposit_price,
+      note,
+      status: true,
+      rooms: idRoom,
+      accounts: authContext?.account?.id || 0,
+    };
+    try {
+      const response = await axios.post(
+        `https://qlphong-tro-production.up.railway.app/contracts/create`,
+        newContract,
+      );
+      if (response) {
+        showDialogSuccess('Tạo hóa đơn thành công');
+      }
+    } catch (error) {
+      console.error('fetch api error');
+    }
+    console.log(newContract);
+  };
+
+  const handleImagePickerfont = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      multiple: false,
+      maxFiles: 1,
+    })
+      .then(image => {
+        const selectedImage = {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+        };
+        setcard_front(selectedImage);
+        console.log();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleImagePickerback = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      multiple: false,
+      maxFiles: 1,
+    })
+      .then(image => {
+        const selectedImage = {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+        };
+        setback_of_card(selectedImage);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const handleIdSelected = (id: string) => {
-    console.log('id dc chọn là' + id);
+    setidRoom(parseInt(id));
+    const room = homeContext?.rooms.find(item => item.id === parseInt(id));
+    setroom_price(room?.room_price || 0);
+    setdeposit_price(room?.deposit_price || 0);
+  };
+  const handleIdSelected2 = (id: string) => {
+    setpayment_period(parseInt(id));
   };
   return (
     <View style={styles.container}>
@@ -87,55 +224,80 @@ export default function CreateContract(): React.JSX.Element {
               style={styles.icon}></Icon>
             <TextInput
               style={styles.txtinput}
-              placeholder="Nhập tên người thuê"></TextInput>
+              placeholder="Nhập tên người thuê"
+              onChangeText={text => settenant_name(text)}></TextInput>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.rowonly}>
-            <Icon
-              name="user"
+            <Icon1
+              name="phone"
               color={Colors.primary}
               size={24}
-              style={styles.icon}></Icon>
+              style={styles.icon}></Icon1>
             <TextInput
               style={styles.txtinput}
               placeholder="Nhập điện thoại người thuê"
-              keyboardType="numeric"></TextInput>
+              keyboardType="numeric"
+              onChangeText={text => setphone(text)}></TextInput>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.rowonly}>
-            <Icon
-              name="user"
+            <Icon2
+              name="email"
               color={Colors.primary}
               size={24}
-              style={styles.icon}></Icon>
+              style={styles.icon}></Icon2>
             <TextInput
               style={styles.txtinput}
-              placeholder="Nhập Email"></TextInput>
+              placeholder="Nhập Email"
+              onChangeText={text => setemail(text)}></TextInput>
           </TouchableOpacity>
 
           <Text style={styles.title2}>Số CMND/CCCD</Text>
           <TouchableOpacity style={styles.rowonly}>
-            <Icon
-              name="user"
+            <Icon1
+              name="idcard"
               color={Colors.primary}
               size={24}
-              style={styles.icon}></Icon>
+              style={styles.icon}></Icon1>
             <TextInput
               style={styles.txtinput}
-              placeholder="Nhập CMND/CCCD"></TextInput>
+              placeholder="Nhập CMND/CCCD"
+              onChangeText={text => setidcode(text)}></TextInput>
           </TouchableOpacity>
 
           <View style={styles.rowcodeid}>
             <View>
               <Text>Mặt trước</Text>
-              <TouchableOpacity style={styles.cmnd}>
-                <Icon name="camera" color={Colors.primary} size={24}></Icon>
+              <TouchableOpacity
+                style={styles.cmnd}
+                onPress={handleImagePickerfont}>
+                {card_front ? (
+                  <View style={{width: '100%', height: '100%'}}>
+                    <Image
+                      style={{width: '100%', height: '100%', borderRadius: 15}}
+                      source={{uri: card_front.uri}}></Image>
+                  </View>
+                ) : (
+                  <Icon name="camera" color={Colors.primary} size={24}></Icon>
+                )}
               </TouchableOpacity>
             </View>
             <View>
               <Text>Mặt sau</Text>
-              <TouchableOpacity style={styles.cmnd}>
-                <Icon name="camera" color={Colors.primary} size={24}></Icon>
+              <TouchableOpacity
+                style={styles.cmnd}
+                onPress={handleImagePickerback}>
+                {back_of_card ? (
+                  <View
+                    style={{width: '100%', height: '100%', borderRadius: 15}}>
+                    <Image
+                      style={{width: '100%', height: '100%'}}
+                      source={{uri: back_of_card.uri}}></Image>
+                  </View>
+                ) : (
+                  <Icon name="camera" color={Colors.primary} size={24}></Icon>
+                )}
               </TouchableOpacity>
             </View>
           </View>
@@ -145,18 +307,18 @@ export default function CreateContract(): React.JSX.Element {
           <Text style={styles.title}>Thông tin thuê</Text>
           <Text style={styles.title2}>Thông tin tòa nhà</Text>
           <TouchableOpacity style={styles.rowonly}>
-            <Icon
-              name="user"
+            <Icon3
+              name="house"
               color={Colors.primary}
               size={24}
-              style={styles.icon}></Icon>
+              style={styles.icon}></Icon3>
             <View
               style={{
                 width: '85%',
                 height: '100%',
               }}>
               <DropdownComponent
-                data={room}
+                data={rooms}
                 onIdSelected={handleIdSelected}></DropdownComponent>
             </View>
           </TouchableOpacity>
@@ -165,7 +327,7 @@ export default function CreateContract(): React.JSX.Element {
             style={styles.rowonly}
             onPress={() => setShowStartDatePicker(true)}>
             <Icon
-              name="user"
+              name="calculator"
               color={Colors.primary}
               size={24}
               style={styles.icon}></Icon>
@@ -189,7 +351,7 @@ export default function CreateContract(): React.JSX.Element {
             style={styles.rowonly}
             onPress={() => setShowEndDatePicker(true)}>
             <Icon
-              name="user"
+              name="calculator"
               color={Colors.primary}
               size={24}
               style={styles.icon}></Icon>
@@ -211,27 +373,33 @@ export default function CreateContract(): React.JSX.Element {
           <Text style={styles.title2}>Tiền phòng</Text>
           <TouchableOpacity style={styles.rowonly}>
             <Icon
-              name="user"
+              name="money"
               color={Colors.primary}
               size={24}
               style={styles.icon}></Icon>
             <TextInput
               style={styles.txtinput}
               placeholder="Tiền phòng"
-              keyboardType="numeric"></TextInput>
+              keyboardType="numeric"
+              onChangeText={text => setroom_price(parseInt(text))}>
+              {room_price}
+            </TextInput>
           </TouchableOpacity>
 
           <Text style={styles.title2}>Tiền cọc</Text>
           <TouchableOpacity style={styles.rowonly}>
             <Icon
-              name="user"
+              name="money"
               color={Colors.primary}
               size={24}
               style={styles.icon}></Icon>
             <TextInput
               style={styles.txtinput}
               placeholder="Tiền cọc"
-              keyboardType="numeric"></TextInput>
+              keyboardType="numeric"
+              onChangeText={text => setdeposit_price(parseInt(text))}>
+              {deposit_price}
+            </TextInput>
           </TouchableOpacity>
 
           <Text style={styles.title2}>Ngày bắt đầu thanh toán</Text>
@@ -239,7 +407,7 @@ export default function CreateContract(): React.JSX.Element {
             style={styles.rowonly}
             onPress={() => setShowstartpay_money(true)}>
             <Icon
-              name="user"
+              name="calculator"
               color={Colors.primary}
               size={24}
               style={styles.icon}></Icon>
@@ -260,15 +428,19 @@ export default function CreateContract(): React.JSX.Element {
 
           <Text style={styles.title2}>Kì thanh toán</Text>
           <TouchableOpacity style={styles.rowonly}>
-            <Icon
-              name="user"
+            <Icon3
+              name="house"
               color={Colors.primary}
               size={24}
-              style={styles.icon}></Icon>
-            <TextInput
-              style={styles.txtinput}
-              placeholder="Chọn kì thanh toán"
-              keyboardType="numeric"></TextInput>
+              style={styles.icon}></Icon3>
+            <View
+              style={{
+                width: '85%',
+                height: '100%',
+              }}>
+              <DropdownComponent2
+                onIdSelected={handleIdSelected2}></DropdownComponent2>
+            </View>
           </TouchableOpacity>
 
           <Text style={styles.title2}>Ghi chú</Text>
@@ -280,10 +452,16 @@ export default function CreateContract(): React.JSX.Element {
               style={styles.icon}></Icon>
             <TextInput
               style={styles.txtinput}
-              placeholder="Nhập ghi chú"></TextInput>
+              placeholder="Nhập ghi chú"
+              onChangeText={text => setnote(text)}></TextInput>
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <View style={styles.bottom}>
+        <TouchableOpacity style={styles.button} onPress={handleCreateContract}>
+          <Text style={styles.txtbutton}> Tạo hợp đồng</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -349,5 +527,25 @@ const styles = StyleSheet.create({
   txtinput: {
     // borderWidth: 1,
     width: width,
+  },
+  bottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height * 0.08,
+    backgroundColor: Colors.white,
+  },
+  button: {
+    height: '60%',
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderRadius: 10,
+    backgroundColor: Colors.accent,
+  },
+  txtbutton: {
+    color: Colors.white,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });

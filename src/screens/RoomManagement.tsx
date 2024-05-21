@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import axios from 'axios';
-import {Posts, Room, Roomadd} from '../assets/types/PropTypes'; // Kiểu dữ liệu của posts
+import {Roomadd} from '../assets/types/PropTypes'; // Kiểu dữ liệu của posts
 import {Colors} from '../assets/Colors';
 import CardRoom from '../components/CardRoom';
 

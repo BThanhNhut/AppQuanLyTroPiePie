@@ -71,7 +71,7 @@ function AccountScreen({navigation}: any): React.JSX.Element {
           <TouchableOpacity
             style={[styles.row, styles.custom1]}
             activeOpacity={0.8}>
-            <Text style={styles.txt}> Chuyển đổi tài khoản</Text>
+            <Text style={styles.txt}>Chuyển đổi tài khoản</Text>
             <Icon2
               name="swap-calls"
               style={styles.icon}

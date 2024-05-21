@@ -4,6 +4,8 @@ import {
   Amenities,
   Furniture,
   Posts,
+  Room,
+  Roomadd,
   ServiceItem,
   Types,
 } from '../assets/types/PropTypes';
@@ -28,6 +30,8 @@ export type HomeContextType = {
   setTypes: React.Dispatch<React.SetStateAction<Types[]>>;
   accounts: Account[];
   setAccount: React.Dispatch<React.SetStateAction<Account[]>>;
+  rooms: Room[];
+  setRoom: React.Dispatch<React.SetStateAction<Room[]>>;
 };
 
 export const HomeContext = createContext<HomeContextType | undefined>(
@@ -41,6 +45,7 @@ export function HomeProvider({children}: {children: ReactNode}) {
   const [posts, setPosts] = useState<Posts[]>([]);
   const [types, setTypes] = useState<Types[]>([]);
   const [accounts, setAccount] = useState<Account[]>([]);
+  const [rooms, setRoom] = useState<Room[]>([]);
 
   const contextValue: HomeContextType = {
     services,
@@ -55,6 +60,8 @@ export function HomeProvider({children}: {children: ReactNode}) {
     setTypes,
     accounts,
     setAccount,
+    rooms,
+    setRoom,
   };
 
   useEffect(() => {
@@ -73,12 +80,14 @@ export function HomeProvider({children}: {children: ReactNode}) {
         axios.get('https://qlphong-tro-production.up.railway.app/posts'),
         axios.get('https://qlphong-tro-production.up.railway.app/types'),
         axios.get(`https://qlphong-tro-production.up.railway.app/accounts`),
+        axios.get(`https://qlphong-tro-production.up.railway.app/rooms/all`),
       ]);
       setAmenities(responses[1].data);
       setFurnitures(responses[2].data);
       setPosts(responses[3].data);
       setTypes(responses[4].data);
       setAccount(responses[5].data);
+      setRoom(responses[6].data);
     } catch (error) {
       console.error('fetch api error', error);
     }

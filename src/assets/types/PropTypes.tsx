@@ -235,3 +235,24 @@ export type userInfo = {
   photoURL: string | null;
   idToken: string | null;
 };
+
+//Contracts
+
+export type Createcontracts = {
+  tenant_name: string;
+  phone: string;
+  email: string;
+  idcode: string;
+  card_front: string;
+  back_of_card: string;
+  start_date: Date;
+  end_date: Date;
+  room_price: number;
+  deposit_price: number;
+  startpay_money: Date;
+  payment_period: number;
+  note: string;
+  status: boolean;
+  rooms: number;
+  accounts: number;
+};

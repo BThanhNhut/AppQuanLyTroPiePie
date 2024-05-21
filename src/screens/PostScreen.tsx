@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -12,20 +12,37 @@ import {HomeContext} from '../contexts/HomeContext';
 import {Posts} from '../assets/types/PropTypes';
 import CardPost2 from '../components/CardPost2';
 import {SearchContext} from '../contexts/SearchContext';
+import debounce from 'lodash.debounce';
 const {width, height} = Dimensions.get('window');
 
 export default function PostScreen(): React.JSX.Element {
   const searchContext = useContext(SearchContext);
   const homeContext = useContext(HomeContext);
   const [visibleposts, setVisibleposts] = useState<Posts[]>([]);
+  const [textSearch, settextSearch] = useState<string>('');
+
+  const normalizeString = (str: string) => {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  };
 
   useEffect(() => {
-    setVisibleposts(homeContext?.posts || []);
     const visible = homeContext?.posts.filter(post =>
-      post.rooms.province.includes(searchContext?.Province || 'TP Hồ Chí Minh'),
+      post.rooms.province
+        .toLowerCase()
+        .includes(searchContext?.Province?.toLowerCase() || 'TP Hồ Chí Minh'),
     );
     setVisibleposts(visible || []);
-  }, []);
+  }, [homeContext?.posts, searchContext?.Province]);
+
+  useEffect(() => {
+    const visible = homeContext?.posts.filter(post =>
+      post.rooms.address.toLowerCase().includes(textSearch.toLocaleLowerCase()),
+    );
+    setVisibleposts(visible || []);
+  }, [textSearch, homeContext?.posts]);
 
   const handleonpress = (id: number) => {
     console.log('Chon chi tiet ' + id);
@@ -37,6 +54,13 @@ export default function PostScreen(): React.JSX.Element {
     </View>
   );
 
+  const debouncedSetTextSearch = useCallback(
+    debounce(text => {
+      settextSearch(text);
+    }, 2000),
+    [],
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.search}>
@@ -45,7 +69,11 @@ export default function PostScreen(): React.JSX.Element {
           style={styles.img}
           resizeMode="contain"
         />
-        <TextInput style={styles.txt} placeholder="Tìm kiếm" />
+        <TextInput
+          style={styles.txt}
+          placeholder="Tìm kiếm"
+          onChangeText={debouncedSetTextSearch}
+        />
       </View>
       <FlatList
         style={styles.flat}
@@ -84,6 +112,7 @@ const styles = StyleSheet.create({
   txt: {
     marginTop: 2,
     height: '100%',
+    width: '100%',
   },
   flat: {
     width: '100%',
