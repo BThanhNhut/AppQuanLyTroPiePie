@@ -9,6 +9,7 @@
 - Quản lý hợp đồng.
 - Tạo và quản lý hóa đơn: Tạo hóa đơn cho từng khách thuê, ghi nhận các khoản thu.
 ## Kiến thức
+- flexbox, hooks, context, axios
 - Ngôn ngữ typescript
 - Framework FE: React native
 - Framework Backend: NestJS
