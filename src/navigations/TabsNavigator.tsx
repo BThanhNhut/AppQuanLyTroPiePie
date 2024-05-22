@@ -9,7 +9,6 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import HeaderService from '../navigations/HeaderNavigator/HeaderService';
 import HeaderMessage from '../navigations/HeaderNavigator/HeaderMessage';
 import {Colors} from '../assets/Colors';
-import MessageScreen from '../screens/MessageScreen';
 import AccountScreen from '../screens/AccountScreen';
 import ServiceScreen from '../screens/ServiceScreen';
 import ManagementPost from '../screens/ManagementPost';

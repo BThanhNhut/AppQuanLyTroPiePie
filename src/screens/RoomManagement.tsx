@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   View,
   Image,
@@ -13,12 +13,14 @@ import axios from 'axios';
 import {Roomadd} from '../assets/types/PropTypes'; // Kiểu dữ liệu của posts
 import {Colors} from '../assets/Colors';
 import CardRoom from '../components/CardRoom';
+import {styles} from './styles/RoomManagementStyle';
+import {AuthContext} from '../contexts/AuthContext';
 
 const RoomManagement = ({navigation}: any): React.JSX.Element => {
+  const authContext = useContext(AuthContext);
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [rooms, setRooms] = useState<Roomadd[]>([]);
-  const id_account = 1;
 
   useEffect(() => {
     fetchData();
@@ -28,7 +30,7 @@ const RoomManagement = ({navigation}: any): React.JSX.Element => {
     try {
       const responses = await Promise.all([
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/rooms/account/${id_account}`,
+          `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}`,
         ),
       ]);
       setRooms(responses[0].data);
@@ -125,35 +127,5 @@ const SecondRoute = ({data}: {data: Roomadd[]}) => (
     </ScrollView>
   </View>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  search: {
-    margin: 20,
-    width: '80%',
-    height: '45%',
-    backgroundColor: Colors.silver2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  img: {
-    marginLeft: 10,
-    marginRight: 10,
-    width: 24,
-    height: 24,
-  },
-  txt: {
-    height: '100%',
-    width: '100%',
-  },
-  content: {
-    flex: 1,
-    width: '100%',
-  },
-});
 
 export default RoomManagement;

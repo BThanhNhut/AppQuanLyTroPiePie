@@ -1,4 +1,4 @@
-import {GestureResponderEvent} from 'react-native';
+import {RouteProp, NavigationProp} from '@react-navigation/native';
 
 export type ItemMenu = {
   nameIcon: any;
@@ -237,7 +237,6 @@ export type userInfo = {
 };
 
 //Contracts
-
 export type Createcontracts = {
   tenant_name: string;
   phone: string;
@@ -254,5 +253,43 @@ export type Createcontracts = {
   note: string;
   status: boolean;
   rooms: number;
+  accounts: number;
+};
+
+export type Contracts = {
+  id: number | null;
+  tenant_name: string;
+  phone: string;
+  email: string;
+  idcode: string;
+  card_front: string;
+  back_of_card: string;
+  start_date: Date;
+  end_date: Date;
+  room_price: number;
+  deposit_price: number;
+  startpay_money: Date;
+  payment_period: number;
+  note: string;
+  status: boolean;
+  rooms: Room;
+  accounts: Account;
+};
+
+// slection
+type RootStackParamList = {
+  Home: undefined;
+  SelectContract: {selectContract: () => void};
+};
+
+export type InvoicesCreate = {
+  monthly_bill: number;
+  service_charge: number;
+  service_note: string;
+  discount: number;
+  discount_note: string;
+  note: string;
+  status: boolean;
+  contracts: number;
   accounts: number;
 };

@@ -2,8 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {Colors} from '../assets/Colors';
 import CardService from '../components/CardService';
-
-const {width, height} = Dimensions.get('window');
+import {styles} from './styles/ServiceScreenStyle';
 
 function ServiceScreen() {
   return (
@@ -40,17 +39,3 @@ function ServiceScreen() {
   );
 }
 export default ServiceScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  layout: {
-    flex: 1,
-    width: width,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});

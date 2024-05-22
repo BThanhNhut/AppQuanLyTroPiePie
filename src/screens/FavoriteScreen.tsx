@@ -14,8 +14,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../assets/Colors';
 import {AuthContext} from '../contexts/AuthContext';
-
-const {width, height} = Dimensions.get('window');
+import {styles} from './styles/FavoriteScreenStyle';
+const {width} = Dimensions.get('window');
 
 export default function FavoriteScreen(): React.JSX.Element {
   const [favorite, setfavorite] = useState<favoriteItem[]>();
@@ -87,30 +87,3 @@ export default function FavoriteScreen(): React.JSX.Element {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  img: {
-    height: height * 0.15,
-    width: width * 0.3,
-    borderRadius: 10,
-  },
-  card: {
-    width: width * 0.9,
-    height: height * 0.15,
-    borderRadius: 10,
-    flexDirection: 'row',
-    margin: 5,
-    backgroundColor: 'white',
-  },
-  row: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  icon: {
-    marginLeft: 15,
-    marginRight: 5,
-  },
-});

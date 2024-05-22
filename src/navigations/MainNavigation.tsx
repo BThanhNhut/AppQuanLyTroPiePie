@@ -34,6 +34,9 @@ import MyChatRoomsScreen from '../screens/MyChatRoomsScreen';
 import ChatScreen from '../screens/ChatScreen';
 import HeaderChatScreen from './HeaderNavigator/HeaderChatScreen';
 import HeaderCreateContract from './HeaderNavigator/HeaderCreateContract';
+import HeaderCreateInvoice from './HeaderNavigator/HeaderCreateInvoice';
+import SelectContract from '../components/SelectContract';
+import HeaderSelect from './HeaderNavigator/HeaderSelect';
 
 const Stack = createNativeStackNavigator();
 export default function MainNavigation() {
@@ -48,6 +51,16 @@ export default function MainNavigation() {
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
 
+        <Stack.Screen
+          name="SelectContract"
+          component={SelectContract}
+          options={{
+            headerShown: true,
+            header: ({navigation, route}) => (
+              <HeaderSelect navigation={navigation} route={route} />
+            ),
+          }}
+        />
         <Stack.Screen
           name="ChatScreen"
           component={ChatScreen}
@@ -75,7 +88,7 @@ export default function MainNavigation() {
           options={{
             headerShown: true,
             header: ({navigation}) => (
-              <HeaderAccountDetail navigation={navigation} />
+              <HeaderCreateInvoice navigation={navigation} />
             ),
           }}
         />

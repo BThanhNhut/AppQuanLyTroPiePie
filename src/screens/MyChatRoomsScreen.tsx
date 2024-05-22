@@ -12,10 +12,8 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import {HomeContext} from '../contexts/HomeContext';
-import {Colors} from '../assets/Colors';
 import {AuthContext} from '../contexts/AuthContext';
-
-const {width, height} = Dimensions.get('window');
+import {styles} from './styles/MyChatRoomsScreenStyle';
 // interface User {
 //   userId: string;
 //   userName: string;
@@ -121,25 +119,4 @@ const MyChatRoomsScreen = ({navigation}: {navigation: any}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: 10,
-    height: height * 0.14,
-    marginVertical: 3,
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    width: width,
-    flexDirection: 'row',
-    //Viền
-    backgroundColor: Colors.white,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-});
 export default MyChatRoomsScreen;

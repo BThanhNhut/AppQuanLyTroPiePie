@@ -8,25 +8,25 @@ type month = {
 };
 
 const data: month[] = [
-  {id: '1', month: '1 Tháng'},
-  {id: '2', month: '2 Tháng'},
-  {id: '3', month: '3 Tháng'},
-  {id: '4', month: '4 Tháng'},
-  {id: '5', month: '5 Tháng'},
-  {id: '6', month: '6 Tháng'},
-  {id: '7', month: '7 Tháng'},
-  {id: '8', month: '8 Tháng'},
-  {id: '9', month: '9 Tháng'},
-  {id: '10', month: '10 Tháng'},
-  {id: '11', month: '11 Tháng'},
-  {id: '12', month: '12 Tháng'},
+  {id: '1', month: 'Tháng 1'},
+  {id: '2', month: 'Tháng 2'},
+  {id: '3', month: 'Tháng 3'},
+  {id: '4', month: 'Tháng 4'},
+  {id: '5', month: 'Tháng 5'},
+  {id: '6', month: 'Tháng 6'},
+  {id: '7', month: 'Tháng 7'},
+  {id: '8', month: 'Tháng 8'},
+  {id: '9', month: 'Tháng 9'},
+  {id: '10', month: 'Tháng 10'},
+  {id: '11', month: 'Tháng 11'},
+  {id: '12', month: 'Tháng 12'},
 ];
 
 type DropdownProps = {
   onIdSelected?: (id: string) => void;
 };
 
-const DropdownComponent = ({onIdSelected = () => {}}: DropdownProps) => {
+const DropdownComponent3 = ({onIdSelected = () => {}}: DropdownProps) => {
   const [value, setValue] = useState<string | null>(null);
 
   return (
@@ -41,7 +41,7 @@ const DropdownComponent = ({onIdSelected = () => {}}: DropdownProps) => {
       maxHeight={300}
       labelField="month"
       valueField="id"
-      placeholder="Chọn kì thanh toán"
+      placeholder="Chọn tháng thanh toán"
       searchPlaceholder="Tìm kiếm"
       value={value}
       onChange={item => {
@@ -52,7 +52,7 @@ const DropdownComponent = ({onIdSelected = () => {}}: DropdownProps) => {
   );
 };
 
-export default DropdownComponent;
+export default DropdownComponent3;
 
 const styles = StyleSheet.create({
   dropdown: {
