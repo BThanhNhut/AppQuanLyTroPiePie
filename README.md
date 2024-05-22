@@ -35,7 +35,7 @@ Source BE https://github.com/BThanhNhut/ql_phong-tro
          <div style="width: 150px; text-align: justify;">Màn hình đăng nhập, đăng ký</div>
       </td>
       <td align="center" width="250">
-         Đây là màn hình đăng nhập, và màn hình đăng ký, chúng ta có thể đăng nhập bằng google hoặc facebook
+         Đây là màn hình đăng nhập, và màn hình đăng ký, chúng ta có thể đăng nhập bằng google.
       </td>
    </tr>
    <tr>
