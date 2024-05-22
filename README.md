@@ -146,4 +146,14 @@ Source BE https://github.com/BThanhNhut/ql_phong-tro
          Đây là màn hình tạo hợp đồng
       </td>
    </tr>
+   <tr>
+      <td style="text-align: center;">
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/51eae28c-3d2e-4f13-85b8-47910b9f5d61" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/bc83ca35-b760-4d4e-a96c-b37b5df64b1f" alt="Giao diện ứng dụng" width="200" />
+         <img src="https://github.com/BThanhNhut/AppQuanLyTroPiePie/assets/92388024/8d742412-583c-4b84-b9d3-0825c7c3604e" alt="Giao diện ứng dụng" width="200" />
+      </td>
+      <td align="center" width="250">
+         Đây là màn hình tạo hóa đơn
+      </td>
+</tr>
 </table>
