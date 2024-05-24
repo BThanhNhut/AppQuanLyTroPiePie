@@ -1,11 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   View,
-  Text,
   Image,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   useWindowDimensions,
   ScrollView,
 } from 'react-native';
@@ -15,13 +13,14 @@ import {Posts} from '../assets/types/PropTypes'; // Kiểu dữ liệu của pos
 import {Colors} from '../assets/Colors';
 import CardPost from '../components/CardPost';
 import {styles} from './styles/RentalPostStyle';
+import {AuthContext} from '../contexts/AuthContext';
 
 const RentalPost = ({navigation}: any): React.JSX.Element => {
+  const authContext = useContext(AuthContext);
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [dataactive, setDatadataactive] = useState<Posts[]>([]);
   const [dataunactive, setDatadataunactive] = useState<Posts[]>([]);
-  const id_account = 1;
 
   useEffect(() => {
     fetchData();
@@ -31,10 +30,10 @@ const RentalPost = ({navigation}: any): React.JSX.Element => {
     try {
       const responses = await Promise.all([
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/posts/listactive/${id_account}`,
+          `https://qlphong-tro-production.up.railway.app/posts/listactive/${authContext?.account?.id}`,
         ),
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/posts/listunactive/${id_account}`,
+          `https://qlphong-tro-production.up.railway.app/posts/listunactive/${authContext?.account?.id}`,
         ),
       ]);
       setDatadataactive(responses[0].data);

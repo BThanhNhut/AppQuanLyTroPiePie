@@ -26,8 +26,8 @@ function HeaderRentalPost({navigation}: any) {
             color={Colors.white}
             onPress={goBack}></Icon5>
         </TouchableOpacity>
-        <Text style={styles.title}> Bài đăng cho thuê phòng</Text>
-        <Icon name="add" size={22} color={Colors.white}></Icon>
+        <Text style={styles.title}> Bài đăng</Text>
+        <View></View>
       </View>
     </View>
   );

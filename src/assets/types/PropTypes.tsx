@@ -83,6 +83,7 @@ export type Posts = {
   rooms: Room;
   title: string;
   create_at: Date;
+  status: boolean;
 };
 
 export type cardPostProps = {

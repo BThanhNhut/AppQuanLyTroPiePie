@@ -19,32 +19,35 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showDialogErrorLogin, showDialogLogOut} from './Services/DetailService';
 import {styles} from './styles/AccountStyles';
+import {HomeContext} from '../contexts/HomeContext';
 
 function AccountScreen({navigation}: any): React.JSX.Element {
   const authContext = useContext(AuthContext);
+  const homeContext = useContext(HomeContext);
   const [numberroom, setNumberroom] = useState<number>(0);
   const [numberpost, setNumberpost] = useState<number>(0);
 
   useEffect(() => {
+    const a = homeContext?.posts.filter(
+      item =>
+        item.status === true && item.accounts.id === authContext?.account?.id,
+    );
+    setNumberpost(a?.length || 0);
+    const fetchData = async () => {
+      try {
+        const responses = await Promise.all([
+          axios.get(
+            `https://qlphong-tro-production.up.railway.app/rooms/count/${authContext?.account?.id}`,
+          ),
+        ]);
+        setNumberroom(responses[0].data);
+      } catch (error) {
+        console.log('fetch data error', error);
+      }
+    };
+
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const responses = await Promise.all([
-        axios.get(
-          `https://qlphong-tro-production.up.railway.app/rooms/count/${authContext?.account?.id}`,
-        ),
-        axios.get(
-          `https://qlphong-tro-production.up.railway.app/posts/count/${authContext?.account?.id}`,
-        ),
-      ]);
-      setNumberroom(responses[0].data);
-      setNumberpost(responses[1].data);
-    } catch (error) {
-      console.log('fetch data error', error);
-    }
-  };
 
   const goToScreen = (name: string) => {
     navigation.navigate(name);

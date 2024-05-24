@@ -90,7 +90,6 @@ function DetailScreen({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Gọi tất cả các API
         const responses = await Promise.all([
           axios.get(
             `https://qlphong-tro-production.up.railway.app/posts/${id_post}`,
