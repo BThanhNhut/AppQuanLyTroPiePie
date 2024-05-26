@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   View,
   Image,
@@ -10,17 +10,20 @@ import {
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import axios from 'axios';
-import {Posts} from '../assets/types/PropTypes';
+import {Contracts, Posts} from '../assets/types/PropTypes';
 import {Colors} from '../assets/Colors';
 import CardPost from '../components/CardPost';
 import {styles} from './styles/ContractManagementStyle';
+import {AuthContext} from '../contexts/AuthContext';
+import SelectContract from '../components/SelectContract';
+import CardContract from '../components/CardContract';
 
 const ContractManagement = ({navigation}: any): React.JSX.Element => {
+  const authContext = useContext(AuthContext);
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const [dataactive, setDatadataactive] = useState<Posts[]>([]);
-  const [dataunactive, setDatadataunactive] = useState<Posts[]>([]);
-  const id_account = 1;
+  const [dataactive, setDatadataactive] = useState<Contracts[]>([]);
+  const [dataunactive, setDatadataunactive] = useState<Contracts[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -30,14 +33,14 @@ const ContractManagement = ({navigation}: any): React.JSX.Element => {
     try {
       const responses = await Promise.all([
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/posts/listactive/${id_account}`,
+          `http://localhost:13539/contracts/accounts/${authContext?.account?.id}/false`, //con hieu luc
         ),
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/posts/listunactive/${id_account}`,
+          `http://localhost:13539/contracts/accounts/${authContext?.account?.id}/true`, // da cham dut
         ),
       ]);
-      setDatadataactive(responses[0].data);
-      setDatadataunactive(responses[1].data);
+      setDatadataunactive(responses[0].data);
+      setDatadataactive(responses[1].data);
       console.log(dataactive.length);
     } catch (error) {
       console.log('fetch data error', error);
@@ -45,9 +48,9 @@ const ContractManagement = ({navigation}: any): React.JSX.Element => {
   };
 
   const renderScene = SceneMap({
-    first: () => <FirstRoute data={dataactive} />,
-    second: () => <SecondRoute data={dataunactive} />,
-    third: () => <SecondRoute data={dataunactive} />,
+    first: () => <FirstRoute data={dataunactive} />,
+    // second: () => <SecondRoute data={dataactive} />,
+    third: () => <SecondRoute data={[]} />,
   });
 
   const renderTabBar = (props: any) => (
@@ -95,9 +98,8 @@ const ContractManagement = ({navigation}: any): React.JSX.Element => {
           navigationState={{
             index,
             routes: [
-              {key: 'first', title: `Đang chờ kí`},
-              {key: 'second', title: `Còn hiệu lực`},
-              {key: 'third', title: `Hết hiệu lực`},
+              {key: 'first', title: `Còn hiệu lực`},
+              {key: 'second', title: `Hết hiệu lực`},
             ],
           }}
           renderScene={renderScene}
@@ -110,17 +112,12 @@ const ContractManagement = ({navigation}: any): React.JSX.Element => {
   );
 };
 
-const FirstRoute = ({data}: {data: Posts[]}) => (
-  <View style={{flex: 1}}>
+const FirstRoute = ({data}: {data: Contracts[]}) => (
+  <View style={{flex: 1, alignItems: 'center'}}>
     <ScrollView>
       {data &&
-        data.map((post, index) => (
-          <CardPost
-            key={index}
-            item={post}
-            onPress={() => {
-              console.log('chon phong');
-            }}></CardPost>
+        data.map((contract, index) => (
+          <CardContract key={index} contract={contract}></CardContract>
         ))}
     </ScrollView>
   </View>
@@ -136,7 +133,8 @@ const SecondRoute = ({data}: {data: Posts[]}) => (
             item={post}
             onPress={() => {
               console.log('chon phong');
-            }}></CardPost>
+            }}
+            onLongPress={() => {}}></CardPost>
         ))}
     </ScrollView>
   </View>

@@ -71,14 +71,10 @@ export default function CreateContract(): React.JSX.Element {
       try {
         const responses = await Promise.all([
           axios.get(
-            `https://qlphong-tro-production.up.railway.app/contracts/accounts/${authContext?.account?.id}`,
-          ),
-          axios.get(
-            `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}`,
+            `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}/false`,
           ),
         ]);
-        setContracts(responses[0].data);
-        setrooms(responses[1].data);
+        setrooms(responses[0].data);
       } catch (error) {
         console.log('Fetch api error', error);
       }
