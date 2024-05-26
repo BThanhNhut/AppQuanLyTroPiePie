@@ -10,7 +10,7 @@ import {styles} from '../screens/styles/LoginStyle';
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axios from 'axios';
-import {AccountLogin, userInfo} from '../assets/types/PropTypes';
+import {Account, AccountLogin, userInfo} from '../assets/types/PropTypes';
 import {AuthContext} from '../contexts/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showDialogErrorLogin} from './Services/DetailService';
@@ -53,36 +53,32 @@ export default function LoginScreen({navigation}: any): React.JSX.Element {
     const isValidUsername = validateInput(username);
     const isEmail = validateInput(username);
     const isValidPassword = validateInput(password);
-    // if (!isEmail) {
-    //   showDialogErrorLogin('Định đạng không đúng (Phải là email)');
-    //   return;
-    // }
+    if (!isEmail) {
+      showDialogErrorLogin('Định đạng không đúng (Phải là email)');
+      return;
+    }
     if (!isValidUsername || !isValidPassword) {
       showDialogErrorLogin('Không được để trống và chứa kí tự đặc biệt');
       return;
     }
-
-    const account_login = await signInWithEmailAndPassword(username, password);
     try {
-      if (account_login) {
-        const response = await axios.post(
-          `https://qlphong-tro-production.up.railway.app/accounts/login`,
-          {
-            username: username.toLocaleLowerCase(),
-            password: password.toLocaleLowerCase(),
-          },
-        );
-        await AsyncStorage.setItem('id', response.data.account.id.toString());
-        await AsyncStorage.setItem(
-          'customer_name',
-          response.data.account.customer_name,
-        );
-        await AsyncStorage.setItem('username', response.data.account.username);
-        await AsyncStorage.setItem('password', response.data.account.password);
+      const response = await axios.post(
+        `https://qlphong-tro-production.up.railway.app/accounts/login`,
+        {
+          username: username.toLowerCase(),
+          password: password.toLowerCase(),
+        },
+      );
+      await AsyncStorage.setItem('id', response.data.account.id.toString());
+      await AsyncStorage.setItem(
+        'customer_name',
+        response.data.account.customer_name,
+      );
+      await AsyncStorage.setItem('username', response.data.account.username);
+      await AsyncStorage.setItem('password', response.data.account.password);
 
-        authContext?.setAccount(response.data.account);
-        navigation.replace('TabsNavigator');
-      }
+      authContext?.setAccount(response.data.account);
+      navigation.replace('TabsNavigator');
     } catch (error) {
       console.error('Error during login:', error);
     }
@@ -90,7 +86,6 @@ export default function LoginScreen({navigation}: any): React.JSX.Element {
 
   const goToRegister = () => {
     navigation.navigate('RegisterScreen');
-    // signOut();
   };
 
   const handleGoogleSignIn = async () => {
@@ -101,18 +96,16 @@ export default function LoginScreen({navigation}: any): React.JSX.Element {
       );
       if (user) {
         await AsyncStorage.setItem('id', user.id.toString());
-        await AsyncStorage.setItem('customer_name', user.customer_name);
-        await AsyncStorage.setItem('username', user.username);
-        await AsyncStorage.setItem('password', user.password);
         authContext?.setAccount(user);
         navigation.replace('TabsNavigator');
       } else {
-        await signUpWithEmailAndPassword(
+        const acc = await signUpWithEmailAndPassword(
           userLoginGoogle.email || '',
           '123456',
           userLoginGoogle.displayName || '',
           userLoginGoogle.photoURL || '',
         );
+        authContext?.setAccount(acc);
         navigation.replace('TabsNavigator');
       }
     } catch (error) {

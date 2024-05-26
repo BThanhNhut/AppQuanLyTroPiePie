@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showDialogErrorLogin, showDialogLogOut} from './Services/DetailService';
 import {styles} from './styles/AccountStyles';
 import {HomeContext} from '../contexts/HomeContext';
+import {signOut} from './Services/LoginService';
 
 function AccountScreen({navigation}: any): React.JSX.Element {
   const authContext = useContext(AuthContext);
@@ -61,6 +62,7 @@ function AccountScreen({navigation}: any): React.JSX.Element {
     // showDialogLogOut('haha', fetchData, fetchData);
     await AsyncStorage.clear();
     navigation.navigate('LoginScreen');
+    signOut();
   };
   return (
     <View style={styles.container}>

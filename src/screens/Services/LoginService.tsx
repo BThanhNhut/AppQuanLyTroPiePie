@@ -1,8 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import {RegisterAccount} from '../../assets/types/PropTypes';
+import {Account, RegisterAccount} from '../../assets/types/PropTypes';
 import {showDialogBoxWarringText, showDialogSuccess} from './DetailService';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const signInWithEmailAndPassword = async (email: string, password: string) => {
   try {
@@ -23,38 +24,37 @@ const signUpWithEmailAndPassword = async (
   avatar: string,
 ) => {
   try {
-    const userExists = await checkIfUserExists(email);
-    console.log('tai khoan la', userExists);
-    if (userExists) {
-      showDialogBoxWarringText('Tài khoản đã tồn tại');
-      return;
+    const register: RegisterAccount = {
+      username: email,
+      password: password,
+      customer_name: customer_name,
+      phone_number: '',
+      address: '',
+      avatar: avatar,
+      roleId: 1,
+    };
+    const responese = await axios.post(
+      'https://qlphong-tro-production.up.railway.app/accounts/register',
+      register,
+    );
+    await AsyncStorage.setItem('id', responese.data.account.id.toString());
+    const responese2 = await axios.get(
+      `https://qlphong-tro-production.up.railway.app/accounts/${responese.data.account.id}`,
+    );
+    if (responese2) {
+      const acc: Account = {
+        id: responese2.data.id,
+        username: responese2.data.username,
+        password: responese2.data.password,
+        customer_name: responese2.data.customer_name,
+        phone_number: '',
+        address: '',
+        avatar: responese2.data.avatar,
+      };
+      return acc;
     }
-    // const userCredential = await auth().createUserWithEmailAndPassword(
-    //   email,
-    //   password,
-    // );
-    if (!userExists) {
-      console.log('vaooooo');
-      try {
-        const register: RegisterAccount = {
-          username: email,
-          password: password,
-          customer_name: customer_name,
-          phone_number: '',
-          address: '',
-          avatar: avatar,
-          roleId: 1,
-        };
-        const responese = await axios.post(
-          'https://qlphong-tro-production.up.railway.app/accounts/register',
-          register,
-        );
-        console.log(responese.data);
-      } catch (error) {}
-    }
-    showDialogSuccess('Đăng ký thành công');
   } catch (error) {
-    console.error('Lỗi đăng ký:', error);
+    console.log('error');
   }
 };
 

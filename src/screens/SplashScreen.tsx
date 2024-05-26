@@ -10,7 +10,6 @@ function Splash({navigation}: any): React.JSX.Element {
       if (status) {
         navigation.replace('TabsNavigator');
       } else {
-        console.log('haha');
         navigation.replace('LoginScreen');
       }
     } catch (error) {
