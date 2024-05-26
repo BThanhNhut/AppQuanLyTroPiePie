@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {Colors} from '../assets/Colors';
 import {HomeContext} from '../contexts/HomeContext';
 import {Posts} from '../assets/types/PropTypes';
 import CardPost2 from '../components/CardPost2';
@@ -15,38 +14,44 @@ import {SearchContext} from '../contexts/SearchContext';
 import debounce from 'lodash.debounce';
 import {styles} from './styles/PostScreenStyle';
 
-export default function PostScreen(): React.JSX.Element {
+type Props = {
+  route: any;
+  navigation: any;
+};
+
+export default function PostScreen({
+  route,
+  navigation,
+}: Props): React.JSX.Element {
   const searchContext = useContext(SearchContext);
   const homeContext = useContext(HomeContext);
   const [visibleposts, setVisibleposts] = useState<Posts[]>([]);
   const [textSearch, settextSearch] = useState<string>('');
+  const {district} = route.params;
 
-  const normalizeString = (str: string) => {
-    return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase();
-  };
-
-  useEffect(() => {
-    const visible = homeContext?.posts.filter(post =>
-      post.rooms.province
+  const filterPosts = useCallback(() => {
+    const filteredPosts = homeContext?.posts.filter(post => {
+      const provinceMatch = post.rooms.province
         .toLowerCase()
-        .includes(searchContext?.Province?.toLowerCase() || 'TP Hồ Chí Minh'),
-    );
-    setVisibleposts(visible || []);
-  }, [homeContext?.posts, searchContext?.Province]);
+        .includes(searchContext?.Province?.toLowerCase() || '');
+      const textMatch = post.rooms.address
+        .toLowerCase()
+        .includes(textSearch.toLowerCase());
+      const districtMatch = district
+        ? post.rooms.district.toLowerCase().includes(district.toLowerCase())
+        : true;
+      return provinceMatch && textMatch && districtMatch;
+    });
+    setVisibleposts(filteredPosts || []);
+  }, [homeContext?.posts, searchContext?.Province, textSearch, district]);
 
   useEffect(() => {
-    const visible = homeContext?.posts.filter(post =>
-      post.rooms.address.toLowerCase().includes(textSearch.toLocaleLowerCase()),
-    );
-    setVisibleposts(visible || []);
-  }, [textSearch, homeContext?.posts]);
+    filterPosts();
+  }, [filterPosts]);
 
-  const handleonpress = (id: number) => {
-    console.log('Chon chi tiet ' + id);
-  };
+  const handleonpress = useCallback((id: number) => {
+    console.log('Chọn chi tiết ' + id);
+  }, []);
 
   const renderItem = ({item}: {item: Posts}) => (
     <View>
@@ -83,6 +88,7 @@ export default function PostScreen(): React.JSX.Element {
         numColumns={2}
         initialNumToRender={4}
         onEndReachedThreshold={0.1}
+        extraData={visibleposts}
       />
     </View>
   );

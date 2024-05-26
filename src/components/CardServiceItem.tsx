@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 import {CardServiceItemProps} from '../assets/types/PropTypes';
 import {Colors} from '../assets/Colors';
-
 const {width, height} = Dimensions.get('window');
 
 function CardServiceItem({id, services}: CardServiceItemProps) {
-  function formatCurrency(amount: any) {
+  const formatCurrency = (amount: any) => {
     if (typeof amount === 'undefined' || amount === null) {
-      return ''; // Trả về một giá trị mặc định hoặc làm bất cứ điều gì phù hợp với ứng dụng của bạn
+      return '';
     }
     return amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
-  }
+  };
+
   return (
     <View style={styles.container}>
       <Image

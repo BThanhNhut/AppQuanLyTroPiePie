@@ -50,6 +50,13 @@ export type District = {
   link: any;
 };
 
+export type District1 = {
+  id: number;
+  name: string;
+  link: any;
+  onPress: (name: string) => void;
+};
+
 //Home
 export type Room = {
   id: number;

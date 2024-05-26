@@ -49,9 +49,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoaddress: {
+    flex: 1,
     marginTop: 5,
+    paddingBottom: 10,
     width: width,
-    height: height * 0.12,
     backgroundColor: 'white',
     //Viền
     shadowColor: 'black',
@@ -67,9 +68,9 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   inforoom: {
+    flex: 1,
     marginTop: 5,
     width: width,
-    height: height * 0.12,
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',

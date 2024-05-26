@@ -32,11 +32,13 @@ import {
 import {HomeContext} from '../contexts/HomeContext';
 import {AuthContext} from '../contexts/AuthContext';
 import {styles} from './styles/CreateRoomStyle';
+import {ServiceContext} from '../contexts/ServiceContext';
 const {width, height} = Dimensions.get('window');
 
 function CreateRoom() {
   const homeContext = useContext(HomeContext);
   const authContext = useContext(AuthContext);
+  const serviceContext = useContext(ServiceContext);
 
   const [selectedId, setSelectedId] = useState<string>('1');
   //id button
@@ -50,7 +52,6 @@ function CreateRoom() {
   const [address, setAddress] = useState<string>('');
   const [room_price, setRoom_price] = useState<string>('');
   const [deposit_price, setDeposit_price] = useState<string>('');
-  const [image, setImage] = useState<string>('');
   const [area_width, setArea_width] = useState<string>('');
   const [area_height, setArea_height] = useState<string>('');
   const [phone_number, setPhone_number] = useState<string>('');
@@ -331,7 +332,7 @@ function CreateRoom() {
           </View>
 
           <View style={styles.container2}>
-            {homeContext?.services.map((item, index) => (
+            {serviceContext?.services.map((item, index) => (
               <CardServiceEdit key={index} services={item} />
             ))}
           </View>

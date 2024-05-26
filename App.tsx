@@ -11,18 +11,21 @@ import {SearchProvider} from './src/contexts/SearchContext';
 import {AlertNotificationRoot} from 'react-native-alert-notification';
 import {AuthProvider} from './src/contexts/AuthContext';
 import {HomeProvider} from './src/contexts/HomeContext';
+import {ServicesProvider} from './src/contexts/ServiceContext';
 
 function App(): React.JSX.Element {
   return (
-    <HomeProvider>
-      <SearchProvider>
-        <AuthProvider>
-          <AlertNotificationRoot>
-            <MainNavigation />
-          </AlertNotificationRoot>
-        </AuthProvider>
-      </SearchProvider>
-    </HomeProvider>
+    <ServicesProvider>
+      <HomeProvider>
+        <SearchProvider>
+          <AuthProvider>
+            <AlertNotificationRoot>
+              <MainNavigation />
+            </AlertNotificationRoot>
+          </AuthProvider>
+        </SearchProvider>
+      </HomeProvider>
+    </ServicesProvider>
   );
 }
 export default App;

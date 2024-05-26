@@ -31,6 +31,7 @@ export default function HomeScreen({navigation}: any): React.JSX.Element {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const searchContext = useContext(SearchContext);
   const homeContext = useContext(HomeContext);
+
   useEffect(() => {
     const animateHeader = () => {
       Animated.timing(animatedValue, {
@@ -81,6 +82,10 @@ export default function HomeScreen({navigation}: any): React.JSX.Element {
     ],
   };
 
+  const hanldeonpress = async (name: string) => {
+    navigation.navigate('PostScreen', {district: name});
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -115,7 +120,8 @@ export default function HomeScreen({navigation}: any): React.JSX.Element {
                 key={index}
                 id={item.id}
                 name={item.name}
-                link={item.link}></CardAddress>
+                link={item.link}
+                onPress={() => hanldeonpress(item.name)}></CardAddress>
             ))}
           </ScrollView>
         </View>

@@ -1,20 +1,12 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
   Text,
-  StyleSheet,
   Dimensions,
   Image,
   ColorValue,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,6 +21,7 @@ import {
   CardServiceItemProps,
   FurnitureItem,
   Posts,
+  ServiceItem,
 } from '../assets/types/PropTypes';
 import CardServiceItem from '../components/CardServiceItem';
 import axios from 'axios';
@@ -40,18 +33,18 @@ import {
 } from './Services/DetailService';
 import {styles} from './styles/DetailStyles';
 import {AuthContext} from '../contexts/AuthContext';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 let orange = '#FF7613';
 
 type DetailsScreenProps = {
-  route: any; // Adjust the type as per your route prop type
-  navigation: any; // Adjust the type as per your navigation prop type
+  route: any;
+  navigation: any;
 };
 
 function formatCurrency(amount: any) {
   if (typeof amount === 'undefined' || amount === null) {
-    return ''; // Trả về một giá trị mặc định hoặc làm bất cứ điều gì phù hợp với ứng dụng của bạn
+    return '';
   }
   return amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
 }
@@ -63,14 +56,13 @@ function DetailScreen({
   const [iconColor, setIconColor] = useState<ColorValue>('#888888');
   const [dataRoom, setdataRoom] = useState<Posts>();
   const [mainImage, setmainImage] = useState<string>();
-  const [serviceItem, setserviceItem] = useState<CardServiceItemProps[]>([]);
+  const [serviceItem, setserviceItem] = useState<ServiceItem[]>([]);
   const [amenitiesItem, setamenitiesItem] = useState<AmenitiesItem[]>([]);
   const [furnituresItem, setfurnituresItem] = useState<FurnitureItem[]>([]);
   const [listImage, setlistImage] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const authContext = useContext(AuthContext);
-
   const {id_post} = route.params;
   let id_account = authContext?.account?.id;
 
@@ -98,9 +90,6 @@ function DetailScreen({
             `https://qlphong-tro-production.up.railway.app/rooms/${id_post}/images`,
           ),
           axios.get(
-            `https://qlphong-tro-production.up.railway.app/rooms/${id_post}/services`,
-          ),
-          axios.get(
             `https://qlphong-tro-production.up.railway.app/rooms/${id_post}/amenities`,
           ),
           axios.get(
@@ -114,11 +103,18 @@ function DetailScreen({
         setdataRoom(responses[0].data);
         setmainImage(dataRoom?.rooms.image || '');
         setlistImage(responses[1].data);
-        setserviceItem(responses[2].data);
-        setamenitiesItem(responses[3].data);
-        setfurnituresItem(responses[4].data);
-        const apiResponse = responses[5].data;
+        setamenitiesItem(responses[2].data);
+        setfurnituresItem(responses[3].data);
+        const apiResponse = responses[4].data;
         const newIconColor = apiResponse ? '#FF0000' : '#888888';
+        try {
+          const responses1 = await axios.get(
+            `https://qlphong-tro-production.up.railway.app/services/${dataRoom?.rooms.id}`,
+          );
+          setserviceItem(responses1.data);
+        } catch (error) {
+          console.log('error');
+        }
         setIconColor(newIconColor);
         // Đánh dấu đã kết thúc load dữ liệu
         setIsLoading(false);
@@ -185,7 +181,6 @@ function DetailScreen({
                   ))}
                 </ScrollView>
               </View>
-
               {/* Phần thông tin */}
               <View style={styles.infotitle}>
                 <View style={styles.row}>
@@ -220,6 +215,16 @@ function DetailScreen({
                 <View style={styles.row}>
                   <Icon2 name="place" size={20} color={orange}></Icon2>
                   <Text style={styles.txt}>{dataRoom?.rooms.address}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Icon2 name="place" size={20} color={orange}></Icon2>
+                  <Text style={styles.txt}>{dataRoom?.rooms.ward}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Icon2 name="place" size={20} color={orange}></Icon2>
+                  <Text style={styles.txt}>
+                    {dataRoom?.rooms.district} - {dataRoom?.rooms.province}
+                  </Text>
                 </View>
                 <View style={styles.row}>
                   <Icon2 name="phone-android" size={20} color={orange}></Icon2>
@@ -270,7 +275,7 @@ function DetailScreen({
                     <CardServiceItem
                       key={item.id}
                       id={item.id}
-                      services={item.services}
+                      services={item}
                     />
                   ))}
                 </View>

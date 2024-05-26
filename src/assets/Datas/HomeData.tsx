@@ -1,4 +1,4 @@
-import {District, ItemMenu} from '../types/PropTypes';
+import {District, ItemMenu, ServiceItem} from '../types/PropTypes';
 
 export const districtsOfHCMC: District[] = [
   {

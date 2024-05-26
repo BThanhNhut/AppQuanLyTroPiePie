@@ -25,7 +25,7 @@ export default function CardSearchMenu({navigation}: any) {
   const searchContext = useContext(SearchContext);
 
   const onPressSearch = () => {
-    navigation.navigate('PostScreen');
+    navigation.navigate('PostScreen', {});
   };
 
   return (

@@ -1,13 +1,20 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
-import {District} from '../assets/types/PropTypes';
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {District, District1} from '../assets/types/PropTypes';
+import {Colors} from '../assets/Colors';
 
-function CardAddres({id, name, link}: District) {
+function CardAddres({id, name, link, onPress}: District1) {
+  const handlePress = () => {
+    onPress(name);
+  };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={handlePress}
+      activeOpacity={0.8}>
       <Image source={link} resizeMode="cover" style={styles.image}></Image>
       <Text style={styles.title}>{name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 export default CardAddres;
@@ -17,7 +24,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 100,
     width: 150,
-    backgroundColor: 'red',
+    backgroundColor: Colors.primary,
     marginRight: 5,
     marginLeft: 10,
     alignItems: 'center',
