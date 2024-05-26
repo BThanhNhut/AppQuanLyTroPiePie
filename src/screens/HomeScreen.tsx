@@ -142,6 +142,7 @@ export default function HomeScreen({navigation}: any): React.JSX.Element {
               key={item.id}
               item={item}
               onPress={(id: number) => onpressDetail(id)}
+              onLongPress={() => {}}
             />
           ))}
         </View>

@@ -17,7 +17,7 @@ import {AuthContext} from '../contexts/AuthContext';
 import {styles} from './styles/FavoriteScreenStyle';
 const {width} = Dimensions.get('window');
 
-export default function FavoriteScreen(): React.JSX.Element {
+export default function FavoriteScreen({navigation}: any): React.JSX.Element {
   const [favorite, setfavorite] = useState<favoriteItem[]>();
   const authContext = useContext(AuthContext);
   const id_account = authContext?.account?.id;
@@ -33,10 +33,14 @@ export default function FavoriteScreen(): React.JSX.Element {
         ),
       ]);
       setfavorite(responese[0].data);
-      console.log('ket qua', favorite);
     } catch (error) {
       console.log('Fetch api error', error);
     }
+  };
+  const onpressDetail = (id: number) => {
+    navigation.navigate('DetailScreen', {
+      id_post: id,
+    });
   };
   return (
     <View style={styles.container}>

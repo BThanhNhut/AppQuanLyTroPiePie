@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {CardServiceItemProps, ServiceItem} from '../assets/types/PropTypes';
 import {Colors} from '../assets/Colors';
+import {ServiceContext} from '../contexts/ServiceContext';
 
 const {width, height} = Dimensions.get('window');
 
@@ -18,15 +19,21 @@ type serviceProps = {
 };
 
 function CardServiceEdit({services}: serviceProps) {
+  const serviceContext = useContext(ServiceContext);
   function formatCurrency(amount: any) {
     if (typeof amount === 'undefined' || amount === null) {
-      return ''; // Trả về một giá trị mặc định hoặc làm bất cứ điều gì phù hợp với ứng dụng của bạn
+      return '';
     }
     return amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
   }
+
+  const hanldeDelete = () => {
+    serviceContext?.deleteService(services.id);
+  };
+
   return (
     <TouchableOpacity style={styles.container} activeOpacity={0.7}>
-      <TouchableOpacity style={styles.cardedit}>
+      <TouchableOpacity style={styles.cardedit} onPress={hanldeDelete}>
         <Image
           style={styles.iconedit}
           source={require('../assets/images/icon/edit.png')}></Image>

@@ -20,7 +20,8 @@ const RoomManagement = ({navigation}: any): React.JSX.Element => {
   const authContext = useContext(AuthContext);
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const [rooms, setRooms] = useState<Roomadd[]>([]);
+  const [roomsacctive, setroomsacctive] = useState<Roomadd[]>([]);
+  const [roomsunacctive, setroomsunacctive] = useState<Roomadd[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -30,20 +31,23 @@ const RoomManagement = ({navigation}: any): React.JSX.Element => {
     try {
       const responses = await Promise.all([
         axios.get(
-          `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}`,
+          `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}/false`,
+        ),
+        axios.get(
+          `https://qlphong-tro-production.up.railway.app/rooms/account/${authContext?.account?.id}/true`,
         ),
       ]);
-      setRooms(responses[0].data);
-      console.log(rooms);
+      setroomsunacctive(responses[0].data);
+      setroomsacctive(responses[1].data);
     } catch (error) {
       console.log('fetch data error', error);
     }
   };
 
   const renderScene = SceneMap({
-    first: () => <FirstRoute data={rooms} />,
-    second: () => <SecondRoute data={rooms} />,
-    third: () => <SecondRoute data={rooms} />,
+    first: () => <FirstRoute data={roomsunacctive} />,
+    second: () => <SecondRoute data={roomsacctive} />,
+    third: () => <SecondRoute data={[]} />,
   });
 
   const renderTabBar = (props: any) => (

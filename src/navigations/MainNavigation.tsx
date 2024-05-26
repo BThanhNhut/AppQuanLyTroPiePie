@@ -37,6 +37,7 @@ import HeaderCreateContract from './HeaderNavigator/HeaderCreateContract';
 import HeaderCreateInvoice from './HeaderNavigator/HeaderCreateInvoice';
 import SelectContract from '../components/SelectContract';
 import HeaderSelect from './HeaderNavigator/HeaderSelect';
+import CreateService from '../screens/CreateService';
 
 const Stack = createNativeStackNavigator();
 export default function MainNavigation() {
@@ -50,6 +51,17 @@ export default function MainNavigation() {
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
+
+        <Stack.Screen
+          name="CreateService"
+          component={CreateService}
+          options={{
+            headerShown: true,
+            header: ({navigation, route}) => (
+              <HeaderSelect navigation={navigation} route={route} />
+            ),
+          }}
+        />
 
         <Stack.Screen
           name="SelectContract"

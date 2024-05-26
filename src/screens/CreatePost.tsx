@@ -51,24 +51,24 @@ function CreatePost(): React.JSX.Element {
   const [urlimage2, seturlimage2] = useState<string[]>([]);
   //textinput
   const [titlepost, setTitlepost] = useState<string>();
-  const [name_room, setName_room] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [room_price, setRoom_price] = useState<string>('');
-  const [deposit_price, setDeposit_price] = useState<string>('');
-  const [image, setImage] = useState<string>('');
-  const [area_width, setArea_width] = useState<string>('');
-  const [area_height, setArea_height] = useState<string>('');
-  const [phone_number, setPhone_number] = useState<string>('');
-  const [floor, setFloor] = useState<string>('');
-  const [number_of_people, setNumber_of_people] = useState<string>('');
+  // const [name_room, setName_room] = useState<string>('');
+  // const [address, setAddress] = useState<string>('');
+  // const [room_price, setRoom_price] = useState<string>('');
+  // const [deposit_price, setDeposit_price] = useState<string>('');
+  // const [image, setImage] = useState<string>('');
+  // const [area_width, setArea_width] = useState<string>('');
+  // const [area_height, setArea_height] = useState<string>('');
+  // const [phone_number, setPhone_number] = useState<string>('');
+  // const [floor, setFloor] = useState<string>('');
+  // const [number_of_people, setNumber_of_people] = useState<string>('');
 
-  const [note, setNote] = useState<string>('');
-  const [note_gender, setNote_gender] = useState<string>('');
-  const [province, setProvince] = useState<string>('');
-  const [district, setDistrict] = useState<string>('');
-  const [ward, setWard] = useState<string>('');
-  const [park, setPark] = useState<string>('');
-  const specialCharactersRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  // const [note, setNote] = useState<string>('');
+  // const [note_gender, setNote_gender] = useState<string>('');
+  // const [province, setProvince] = useState<string>('');
+  // const [district, setDistrict] = useState<string>('');
+  // const [ward, setWard] = useState<string>('');
+  // const [park, setPark] = useState<string>('');
+  // const specialCharactersRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -443,10 +443,7 @@ function CreatePost(): React.JSX.Element {
                 source={require('../assets/images/icon/province.png')}
                 style={styles.icon}
                 resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập tỉnh thành"
-                onChangeText={text => setProvince(text)}>
+              <TextInput style={styles.input} placeholder="Nhập tỉnh thành">
                 {roomsselected?.province}
               </TextInput>
             </View>
@@ -459,10 +456,7 @@ function CreatePost(): React.JSX.Element {
                 source={require('../assets/images/icon/district.png')}
                 style={styles.icon}
                 resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập quận huyện"
-                onChangeText={text => setDistrict(text)}>
+              <TextInput style={styles.input} placeholder="Nhập quận huyện">
                 {roomsselected?.district}
               </TextInput>
             </View>
@@ -475,10 +469,7 @@ function CreatePost(): React.JSX.Element {
                 source={require('../assets/images/icon/ward.png')}
                 style={styles.icon}
                 resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập phường"
-                onChangeText={text => setWard(text)}>
+              <TextInput style={styles.input} placeholder="Nhập phường">
                 {roomsselected?.ward}
               </TextInput>
             </View>

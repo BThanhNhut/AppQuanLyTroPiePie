@@ -17,10 +17,10 @@ export function formatCurrency(amount: any) {
   return amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
 }
 
-function CardPost({item, onPress}: cardPostProps) {
-  const currentDate = new Date().getTime() as number; // Lấy thời gian hiện tại tính bằng mili giây
-  const postDate = new Date(item.create_at).getTime() as number; // Lấy thời gian tạo bài viết tính bằng mili giây
-  const timeDifference = currentDate - postDate; // Khoảng thời gian tính bằng mili giây
+function CardPost({item, onPress, onLongPress}: cardPostProps) {
+  const currentDate = new Date().getTime() as number;
+  const postDate = new Date(item.create_at).getTime() as number;
+  const timeDifference = currentDate - postDate;
 
   const millisecondsInADay = 1000 * 60 * 60 * 24;
   const daysDifference = Math.floor(timeDifference / millisecondsInADay);
@@ -29,7 +29,8 @@ function CardPost({item, onPress}: cardPostProps) {
     <TouchableOpacity
       style={styles.container}
       onPress={() => onPress(item.id)}
-      activeOpacity={7.0}>
+      activeOpacity={7.0}
+      onLongPress={() => onLongPress(item.id)}>
       <View style={styles.borderimage}>
         <Image
           style={styles.image}

@@ -39,6 +39,14 @@ export type ServiceItem = {
   status: boolean;
 };
 
+export type ServiceItem2 = {
+  service_name: string;
+  cost: number;
+  note: string;
+  icon: string;
+  status: boolean;
+};
+
 export type CardServiceItemProps = {
   id: number;
   services: ServiceItem;
@@ -96,6 +104,7 @@ export type Posts = {
 export type cardPostProps = {
   item: Posts;
   onPress: (id: number) => void;
+  onLongPress: (id: number) => void;
 };
 //  onPress: (event: GestureResponderEvent) => void;
 

@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {Colors} from '../assets/Colors';
 // import CardServiceItem from '../components/cardserviceitem';
@@ -35,7 +36,7 @@ import {styles} from './styles/CreateRoomStyle';
 import {ServiceContext} from '../contexts/ServiceContext';
 const {width, height} = Dimensions.get('window');
 
-function CreateRoom() {
+function CreateRoom({navigation}: any) {
   const homeContext = useContext(HomeContext);
   const authContext = useContext(AuthContext);
   const serviceContext = useContext(ServiceContext);
@@ -65,6 +66,7 @@ function CreateRoom() {
   const [ward, setWard] = useState<string>('');
   const [park, setPark] = useState<string>('');
   const specialCharactersRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {}, []);
 
@@ -119,6 +121,7 @@ function CreateRoom() {
       );
       return;
     }
+    setLoading(true);
     if (urlimage.length <= 0) {
       showDialogBoxErrorText('Vui lòng ít nhất chọn 1 hình ảnh');
     }
@@ -191,11 +194,17 @@ function CreateRoom() {
             `https://qlphong-tro-production.up.railway.app/images/add`,
             createimage,
           ),
+          axios.post(
+            `https://qlphong-tro-production.up.railway.app/services/${roomId}/add`,
+            serviceContext?.services,
+          ),
         ]);
         console.log('Hình upload', response2[2].data);
       }
     } catch (error) {
       console.log('fetch error ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -250,358 +259,387 @@ function CreateRoom() {
         console.log(error);
       });
   };
+  const goToAdd = () => {
+    navigation.navigate('CreateService');
+  };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         {/* Thông tin phòng */}
-        <View style={styles.card}>
-          <Text style={styles.title}>Thông tin phòng</Text>
-
-          <View style={styles.box}>
-            <Text style={styles.label}> Số/Tên phòng</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/tenphong.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập số/ tên phòng"
-                onChangeText={text => setName_room(text)}></TextInput>
-            </View>
+        {loading ? (
+          <View style={{backgroundColor: Colors.white}}>
+            <ActivityIndicator
+              size="large"
+              color={Colors.primary}
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+            />{' '}
+            <Text>Loading...</Text>
           </View>
+        ) : (
+          <>
+            <View style={styles.card}>
+              <Text style={styles.title}>Thông tin phòng</Text>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Địa chỉ</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/diachi.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập địa chỉ"
-                onChangeText={text => setAddress(text)}></TextInput>
-            </View>
-          </View>
-
-          <View style={styles.box}>
-            <Text style={styles.label}> Giá phòng</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/giaphong.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="nhập giá phòng"
-                keyboardType="numeric"
-                onChangeText={text => setRoom_price(text)}></TextInput>
-            </View>
-          </View>
-
-          <View style={styles.box}>
-            <Text style={styles.label}> Tiền cọc</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/giaphong.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập tiền cọc"
-                keyboardType="numeric"
-                onChangeText={text => setDeposit_price(text)}></TextInput>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: width,
-              alignItems: 'center',
-            }}>
-            <Text style={styles.title}>Thông tin dịch vụ</Text>
-            <TouchableOpacity>
-              <Icon color={Colors.primary} size={24} name="add"></Icon>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.container2}>
-            {serviceContext?.services.map((item, index) => (
-              <CardServiceEdit key={index} services={item} />
-            ))}
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.title}>Thông tin bài đăng</Text>
-          <Text
-            style={{color: Colors.silver1, marginLeft: 10, marginBottom: 10}}>
-            Loại phòng
-          </Text>
-          <View style={styles.container2}>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setSelectedId}
-              selectedId={selectedId}
-              layout="row"
-            />
-          </View>
-          <View style={styles.rowonly}>
-            <TouchableOpacity
-              style={styles.camera}
-              activeOpacity={0.7}
-              onPress={handleImagePicker}>
-              <Icon5 name="camerao" size={25} color={Colors.primary}></Icon5>
-            </TouchableOpacity>
-            <View style={{padding: 10, marginTop: height * 0.04}}>
-              {urlimage.length > 0 ? (
-                <View>
-                  <ScrollView
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}>
-                    {urlimage.map((item, index) => (
-                      <Image
-                        key={index}
-                        source={{uri: item.uri}}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          marginRight: 10,
-                          borderRadius: 10,
-                        }}
-                      />
-                    ))}
-                  </ScrollView>
+              <View style={styles.box}>
+                <Text style={styles.label}> Số/Tên phòng</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/tenphong.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập số/ tên phòng"
+                    onChangeText={text => setName_room(text)}></TextInput>
                 </View>
-              ) : (
-                <View>
-                  <Text>Chọn dưới 10 tấm</Text>
+              </View>
+
+              <View style={styles.box}>
+                <Text style={styles.label}> Địa chỉ</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/diachi.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập địa chỉ"
+                    onChangeText={text => setAddress(text)}></TextInput>
                 </View>
-              )}
+              </View>
+
+              <View style={styles.box}>
+                <Text style={styles.label}> Giá phòng</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/giaphong.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="nhập giá phòng"
+                    keyboardType="numeric"
+                    onChangeText={text => setRoom_price(text)}></TextInput>
+                </View>
+              </View>
+
+              <View style={styles.box}>
+                <Text style={styles.label}> Tiền cọc</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/giaphong.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập tiền cọc"
+                    keyboardType="numeric"
+                    onChangeText={text => setDeposit_price(text)}></TextInput>
+                </View>
+              </View>
             </View>
-          </View>
 
-          <View style={[styles.box, {marginTop: 20}]}>
-            <Text style={[styles.label]}> Giới tính </Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/gioitinh.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập giới tính"
-                onChangeText={text => setNote_gender(text)}></TextInput>
+            <View style={styles.card}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width: width,
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.title}>Thông tin dịch vụ</Text>
+                <TouchableOpacity onPress={goToAdd}>
+                  <Icon color={Colors.primary} size={24} name="add"></Icon>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.container2}>
+                {serviceContext?.services.map((item, index) => (
+                  <CardServiceEdit key={index} services={item} />
+                ))}
+              </View>
             </View>
-          </View>
 
-          <View style={[styles.box, {marginTop: 20}]}>
-            <Text style={[styles.label]}> Chiều dài (m) </Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/dientich.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập chiều dài"
-                keyboardType="numeric"
-                onChangeText={text => setArea_height(text)}></TextInput>
-            </View>
-          </View>
+            <View style={styles.card}>
+              <Text style={styles.title}>Thông tin bài đăng</Text>
+              <Text
+                style={{
+                  color: Colors.silver1,
+                  marginLeft: 10,
+                  marginBottom: 10,
+                }}>
+                Loại phòng
+              </Text>
+              <View style={styles.container2}>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={setSelectedId}
+                  selectedId={selectedId}
+                  layout="row"
+                />
+              </View>
+              <View style={styles.rowonly}>
+                <TouchableOpacity
+                  style={styles.camera}
+                  activeOpacity={0.7}
+                  onPress={handleImagePicker}>
+                  <Icon5
+                    name="camerao"
+                    size={25}
+                    color={Colors.primary}></Icon5>
+                </TouchableOpacity>
+                <View style={{padding: 10, marginTop: height * 0.04}}>
+                  {urlimage.length > 0 ? (
+                    <View>
+                      <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}>
+                        {urlimage.map((item, index) => (
+                          <Image
+                            key={index}
+                            source={{uri: item.uri}}
+                            style={{
+                              width: 100,
+                              height: 100,
+                              marginRight: 10,
+                              borderRadius: 10,
+                            }}
+                          />
+                        ))}
+                      </ScrollView>
+                    </View>
+                  ) : (
+                    <View>
+                      <Text>Chọn dưới 10 tấm</Text>
+                    </View>
+                  )}
+                </View>
+              </View>
 
-          <View style={[styles.box, {marginTop: 20}]}>
-            <Text style={[styles.label]}> Chiều rộng (m) </Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/dientich.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập chiều rộng"
-                keyboardType="numeric"
-                onChangeText={text => setArea_width(text)}></TextInput>
-            </View>
-          </View>
+              <View style={[styles.box, {marginTop: 20}]}>
+                <Text style={[styles.label]}> Giới tính </Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/gioitinh.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập giới tính"
+                    onChangeText={text => setNote_gender(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Số điện thoại</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/sodienthoai.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập số điện thử"
-                keyboardType="numeric"
-                onChangeText={text => setPhone_number(text)}></TextInput>
-            </View>
-          </View>
+              <View style={[styles.box, {marginTop: 20}]}>
+                <Text style={[styles.label]}> Chiều dài (m) </Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/dientich.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập chiều dài"
+                    keyboardType="numeric"
+                    onChangeText={text => setArea_height(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Tầng</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/tang.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập tầng"
-                keyboardType="numeric"
-                onChangeText={text => setFloor(text)}></TextInput>
-            </View>
-          </View>
+              <View style={[styles.box, {marginTop: 20}]}>
+                <Text style={[styles.label]}> Chiều rộng (m) </Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/dientich.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập chiều rộng"
+                    keyboardType="numeric"
+                    onChangeText={text => setArea_width(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Sức chứa </Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/suchua.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập sức chứa"
-                keyboardType="numeric"
-                onChangeText={text => setNumber_of_people(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Số điện thoại</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/sodienthoai.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập số điện thử"
+                    keyboardType="numeric"
+                    onChangeText={text => setPhone_number(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Mô tả</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/mota.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Mô tả"
-                onChangeText={text => setNote(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Tầng</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/tang.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập tầng"
+                    keyboardType="numeric"
+                    onChangeText={text => setFloor(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Số chỗ để xe</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/bike.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập số chỗ để xe"
-                keyboardType="numeric"
-                onChangeText={text => setPark(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Sức chứa </Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/suchua.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập sức chứa"
+                    keyboardType="numeric"
+                    onChangeText={text =>
+                      setNumber_of_people(text)
+                    }></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Tỉnh/thành</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/province.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập tỉnh thành"
-                onChangeText={text => setProvince(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Mô tả</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/mota.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Mô tả"
+                    onChangeText={text => setNote(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}> Quận/huyện</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/district.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập quận huyện"
-                onChangeText={text => setDistrict(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Số chỗ để xe</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/bike.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập số chỗ để xe"
+                    keyboardType="numeric"
+                    onChangeText={text => setPark(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.box}>
-            <Text style={styles.label}>Phường</Text>
-            <View style={styles.row}>
-              <Image
-                source={require('../assets/images/icon/ward.png')}
-                style={styles.icon}
-                resizeMode="contain"></Image>
-              <TextInput
-                style={styles.input}
-                placeholder="Nhập phường"
-                onChangeText={text => setWard(text)}></TextInput>
-            </View>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Tỉnh/thành</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/province.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập tỉnh thành"
+                    onChangeText={text => setProvince(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={[styles.rowonly, {marginTop: 15}]}>
-            <Image
-              source={require('../assets/images/icon/auction.png')}
-              style={[styles.icon, {width: 24, height: 24}]}
-              resizeMode="contain"></Image>
-            <Text style={{fontWeight: 'bold'}}> Tiện nghi</Text>
-          </View>
+              <View style={styles.box}>
+                <Text style={styles.label}> Quận/huyện</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/district.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập quận huyện"
+                    onChangeText={text => setDistrict(text)}></TextInput>
+                </View>
+              </View>
 
-          <View style={styles.container3}>
-            {homeContext?.amenities.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.button,
-                  selectedButtons.includes(item.id) && styles.selectedButton,
-                ]}
-                onPress={() => handleButtonPress(item.id)}>
+              <View style={styles.box}>
+                <Text style={styles.label}>Phường</Text>
+                <View style={styles.row}>
+                  <Image
+                    source={require('../assets/images/icon/ward.png')}
+                    style={styles.icon}
+                    resizeMode="contain"></Image>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nhập phường"
+                    onChangeText={text => setWard(text)}></TextInput>
+                </View>
+              </View>
+
+              <View style={[styles.rowonly, {marginTop: 15}]}>
                 <Image
-                  source={{uri: item.icon}}
-                  style={{width: 24, height: 24}}></Image>
-                <Text>{item.amenity_name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                  source={require('../assets/images/icon/auction.png')}
+                  style={[styles.icon, {width: 24, height: 24}]}
+                  resizeMode="contain"></Image>
+                <Text style={{fontWeight: 'bold'}}> Tiện nghi</Text>
+              </View>
 
-          <View style={[styles.rowonly, {marginTop: 15}]}>
-            <Image
-              source={require('../assets/images/icon/furniture.png')}
-              style={[styles.icon, {width: 24, height: 24}]}
-              resizeMode="contain"></Image>
-            <Text style={{fontWeight: 'bold'}}> Nội thất</Text>
-          </View>
+              <View style={styles.container3}>
+                {homeContext?.amenities.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.button,
+                      selectedButtons.includes(item.id) &&
+                        styles.selectedButton,
+                    ]}
+                    onPress={() => handleButtonPress(item.id)}>
+                    <Image
+                      source={{uri: item.icon}}
+                      style={{width: 24, height: 24}}></Image>
+                    <Text>{item.amenity_name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
 
-          <View style={styles.container3}>
-            {homeContext?.furnitures.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.button,
-                  selectedButtons2.includes(item.id) && styles.selectedButton,
-                ]}
-                onPress={() => handleButtonPress2(item.id)}>
+              <View style={[styles.rowonly, {marginTop: 15}]}>
                 <Image
-                  source={{uri: item.icon}}
-                  style={{width: 24, height: 24}}></Image>
-                <Text>{item.furniture_name}</Text>
+                  source={require('../assets/images/icon/furniture.png')}
+                  style={[styles.icon, {width: 24, height: 24}]}
+                  resizeMode="contain"></Image>
+                <Text style={{fontWeight: 'bold'}}> Nội thất</Text>
+              </View>
+
+              <View style={styles.container3}>
+                {homeContext?.furnitures.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.button,
+                      selectedButtons2.includes(item.id) &&
+                        styles.selectedButton,
+                    ]}
+                    onPress={() => handleButtonPress2(item.id)}>
+                    <Image
+                      source={{uri: item.icon}}
+                      style={{width: 24, height: 24}}></Image>
+                    <Text>{item.furniture_name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+            <View style={styles.cardbottom}>
+              <TouchableOpacity
+                style={styles.buttonsave}
+                onPress={handleSubmit}>
+                <Text style={styles.txt}>Tao phòng</Text>
               </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        <View style={styles.cardbottom}>
-          <TouchableOpacity style={styles.buttonsave} onPress={handleSubmit}>
-            <Text style={styles.txt}>Tao phòng</Text>
-          </TouchableOpacity>
-        </View>
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );

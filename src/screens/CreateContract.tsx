@@ -139,7 +139,7 @@ export default function CreateContract(): React.JSX.Element {
       room_price,
       deposit_price,
       note,
-      status: true,
+      status: false,
       rooms: idRoom,
       accounts: authContext?.account?.id || 0,
     };

@@ -70,13 +70,7 @@ export default function LoginScreen({navigation}: any): React.JSX.Element {
         },
       );
       await AsyncStorage.setItem('id', response.data.account.id.toString());
-      await AsyncStorage.setItem(
-        'customer_name',
-        response.data.account.customer_name,
-      );
       await AsyncStorage.setItem('username', response.data.account.username);
-      await AsyncStorage.setItem('password', response.data.account.password);
-
       authContext?.setAccount(response.data.account);
       navigation.replace('TabsNavigator');
     } catch (error) {
@@ -96,6 +90,7 @@ export default function LoginScreen({navigation}: any): React.JSX.Element {
       );
       if (user) {
         await AsyncStorage.setItem('id', user.id.toString());
+        await AsyncStorage.setItem('username', user.username.toString());
         authContext?.setAccount(user);
         navigation.replace('TabsNavigator');
       } else {

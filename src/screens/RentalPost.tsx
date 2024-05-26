@@ -118,6 +118,9 @@ const FirstRoute = ({data}: {data: Posts[]}) => (
             item={post}
             onPress={() => {
               console.log('chon phong');
+            }}
+            onLongPress={() => {
+              console.log('xoa');
             }}></CardPost>
         ))}
     </ScrollView>
@@ -134,6 +137,9 @@ const SecondRoute = ({data}: {data: Posts[]}) => (
             item={post}
             onPress={() => {
               console.log('chon phong');
+            }}
+            onLongPress={() => {
+              console.log('xoa');
             }}></CardPost>
         ))}
     </ScrollView>

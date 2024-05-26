@@ -17,16 +17,18 @@ function CardSearch({navigation}: any) {
   const searchContext = useContext(SearchContext);
 
   const goToNotification = () => {
-    navigation.navigate('Notification');
+    navigation.navigate('NotifacationScreen');
   };
-
+  const goToPost = async () => {
+    navigation.navigate('PostScreen', {});
+  };
   return (
     <View style={styles.container}>
       <View style={styles.layout1}>
         <Icon2 name="place" size={25} color="#ff7911"></Icon2>
         <Text style={{color: '#ff7911'}}>{searchContext?.Province}</Text>
       </View>
-      <TouchableOpacity style={styles.txtplace}>
+      <TouchableOpacity style={styles.txtplace} onPress={goToPost}>
         <Text style={styles.txt}>Tìm kiếm tin đăng</Text>
       </TouchableOpacity>
       <Icon
